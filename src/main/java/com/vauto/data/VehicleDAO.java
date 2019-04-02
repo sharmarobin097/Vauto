@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class VehicleDAO {
 
     public List<Vehicle> getAllVehicles(DataSet dataSet){
-        List<Vehicle> vehicleList = new ArrayList<>();
+        List<Vehicle> vehicleList = new CopyOnWriteArrayList<>();
         ID ids = getAllVehicleIdsForDataSet(dataSet);
 
         //List<Integer> listOfVehicleIds = new ArrayList<>();

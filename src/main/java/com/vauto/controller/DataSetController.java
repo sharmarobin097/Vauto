@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Controller
 @RequestMapping(value = "/")
@@ -57,7 +58,7 @@ public class DataSetController {
         List<Vehicle> vehicleList = this.vehicleService.getAllVehicles(dataSet);
 
         Set<Dealer> dealerSet;
-        List<DealerDTO> dealerDTOList = new ArrayList<>();
+        List<DealerDTO> dealerDTOList = new CopyOnWriteArrayList<>();
         AnswerDTO answerDTO = new AnswerDTO();
 
         /* Since there is no concurrent set, use a concurrent hashmap and extract set out of it so that parallel stream can
@@ -74,9 +75,9 @@ public class DataSetController {
 
         // For each dealer in dealer set find associated vehicles, add vehicle DTOs to dealer DTOs and finally dealer DTOs to Answer DTO
         dealerSet = dealerMap.keySet();
-        dealerSet.forEach(
+        dealerSet.parallelStream().forEach(
                 (dealer) ->{
-                    List<VehicleDTO> vehicleDTOList = new ArrayList<>();
+                    List<VehicleDTO> vehicleDTOList = new CopyOnWriteArrayList<>();
                     vehicleList.forEach(
                             (vehicle) ->{
                                 if(vehicle.getDealerId() == dealer.getDealerId()){

@@ -21,6 +21,6 @@ public class VautoApplicationTests {
 		assertThat(controller).isNotNull();
 	}
 
-	
+
 
 }
